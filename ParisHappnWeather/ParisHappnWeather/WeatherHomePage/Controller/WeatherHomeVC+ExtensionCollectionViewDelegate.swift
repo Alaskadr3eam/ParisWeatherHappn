@@ -23,7 +23,6 @@ extension WeatherHomeVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.index = indexPath.row
         performSegue(withIdentifier: Constant.detailSegue, sender: nil)
-        print("clicked")
     }
 
 }

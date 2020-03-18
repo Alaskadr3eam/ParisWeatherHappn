@@ -33,18 +33,26 @@ class WeatherService {
         task?.cancel()
         task = weatherSession.dataTask(with: request) { (data, response, error) in
             guard let data = data, error == nil else {
-                completionHandler(nil, NetworkError.emptyData)
+                DispatchQueue.main.async {
+                    completionHandler(nil, NetworkError.emptyData)
+                }
                 return
             }
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                completionHandler(nil, NetworkError.badResponse)
+                DispatchQueue.main.async {
+                    completionHandler(nil, NetworkError.badResponse)
+                }
                 return
             }
             guard let weatherData = try? JSONDecoder().decode(ForecastResponse.self, from: data) else {
-                completionHandler(nil, NetworkError.jsonDecodeFailed)
+                DispatchQueue.main.async {
+                    completionHandler(nil, NetworkError.jsonDecodeFailed)
+                }
                 return
             }
-            completionHandler(weatherData, nil)
+            DispatchQueue.main.async {
+                completionHandler(weatherData, nil)
+            }
         }
         task?.resume()
     }

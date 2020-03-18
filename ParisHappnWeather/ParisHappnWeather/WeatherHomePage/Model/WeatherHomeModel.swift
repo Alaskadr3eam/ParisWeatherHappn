@@ -43,39 +43,63 @@ class WeatherHome {
             onedayList.append(list)
         }
         self.weatherCellModels = onedayList.map{
-            if $0.count == 8 {
+            if $0.count >= 2 && $0.count <= 8 {
                return WeatherCellModel(forecast: $0[3])
             } else {
                return WeatherCellModel(forecast: $0.first!)
             }
         }
+        //print(self.weatherCellModels.last?.forecast.)
         self.weatherCellModels.sort {$0.dateDouble < $1.dateDouble}
         self.weatherDetailTableModels = onedayList.map{ WeatherDetailTableModel(forecasts: $0, city: forecast.city!) }
         self.weatherDetailTableModels.sort { $0.forecasts.first!.dt < $1.forecasts.first!.dt }
         DispatchQueue.main.async {
+            //delete coreData before reSave last data
+            self.manageCoreData.deleteAll(weatherCoreDataS: self.manageCoreData.all)
             for weatherDetailTableModel in self.weatherDetailTableModels {
                 self.manageCoreData.save(forecasts: weatherDetailTableModel.forecasts, city: weatherDetailTableModel.city, weatherCellModel: nil)
             }
-            
+            self.delegate?.weReceiveWeatherData()
         }
-        self.delegate?.weReceiveWeatherData()
     }
     
     fileprivate func failure(error: NetworkError) {
-        self.manageCoreData.deleteAll(weatherCoreDataS: self.manageCoreData.all)
-        transformWeatherDetailCoreDataInWeatherDetailTableModel(weatherDetailCoreDate: self.manageCoreData.all)
-        self.delegate?.failReceiveWeatherData(error: error)
+            let localDB = self.manageCoreData.all
+            self.transformWeatherDetailCoreDataInWeatherDetailTableModel(weatherDetailCoreDate: localDB)
+            if localDB.count > 0 {
+                self.prepareModelForDisplayWithDB()
+                self.delegate?.weReceiveWeatherData()
+                return
+            }
+            self.delegate?.failReceiveWeatherData(error: error)
+    }
+    
+    private func prepareModelForDisplayWithDB() {
+        for weatherDataDetail in self.weatherDetailTableModels {
+            if weatherDataDetail.forecasts.count == 8 {
+                let weatherCellModel = WeatherCellModel(forecast: weatherDataDetail.forecasts[3])
+                self.weatherCellModels.append(weatherCellModel)
+            } else {
+                let weatherCellModel = WeatherCellModel(forecast: weatherDataDetail.forecasts.first!)
+                self.weatherCellModels.append(weatherCellModel)
+            }
+        }
     }
     
     func getRequestWeather(completionHandler: @escaping(Bool?) -> Void) {
-        weatherServiceSession.getWeather(q: Constant.city) { (weatherData, error) in
+        weatherServiceSession.getWeather(q: Constant.city) { [weak self] (weatherData, error) in
+            guard let self = self else { return }
             guard error == nil else {
-                self.failure(error: error!)
+                DispatchQueue.main.async {
+                    self.failure(error: error!)
+                }
                 completionHandler(false)
                 return
             }
             guard weatherData != nil else {
-                self.failure(error: error!)
+                DispatchQueue.main.async {
+                    self.failure(error: error!)
+                }
                 completionHandler(false)
                 return
             }
@@ -93,14 +117,6 @@ class WeatherHome {
             }
             self.weatherDetailTableModels.append(decodedSecure)
         }
-        /*for weatherDetailData in weatherDetailCoreDate {
-           let decoded = decodeWeatherCoreData(weatherDetailData)
-            guard let decodedSecure = decoded else {
-                print("error decode core Data WeatherHome")
-                return
-            }
-            self.weatherDetailTableModels.append(decodedSecure)
-        }*/
     }
     
     private func decodeWeatherCoreData(_ object: WeatherDetailCoreData) -> WeatherDetailTableModel? {

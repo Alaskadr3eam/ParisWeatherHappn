@@ -27,6 +27,7 @@ class WeatherTileCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         labelDay.font = UIFont.boldSystemFont(ofSize: 20)
         labelDescription.font = UIFont.systemFont(ofSize: 15)
         labelTemp.font = UIFont.boldSystemFont(ofSize: 20)
@@ -56,12 +57,13 @@ class WeatherTileCell: UICollectionViewCell {
     private func addShadowForCell(shadow: UIView) {
         shadow.backgroundColor = .clear
         //layer
-        shadow.layer.shadowOpacity = 0.3
+        shadow.layer.cornerRadius = 20
+        shadow.layer.shadowOpacity = 0.8
         shadow.layer.shadowRadius = 3
-        shadow.layer.shadowColor = UIColor.darkGray.cgColor
-        shadow.layer.shadowOffset = CGSize.zero
+        shadow.layer.shadowColor = UIColor.black.cgColor
+        shadow.layer.shadowOffset = CGSize(width: 15, height: 15)
     }
-    
+
     private func addCornerRadiusContainView(containView: UIView) {
         containView.layer.cornerRadius = 20
         containView.layer.masksToBounds = true

@@ -6,20 +6,15 @@
 //  Copyright © 2020 Clément Martin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension WeatherHomeVC: WeatherHomeDelegate {
     func failReceiveWeatherData(error: NetworkError) {
-        DispatchQueue.main.async {
             self.present(NetworkError.getAlert(error), animated: true)
-        }
     }
     
     func weReceiveWeatherData() {
-        DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.hideActivityIndicator()
-        }
     }
-    
 }

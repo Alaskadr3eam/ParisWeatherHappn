@@ -14,8 +14,10 @@ extension WeatherHomeVC: LayoutWeatherTileDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return (collectionView.bounds.height - 60 ) / 3
+        let screenDeviceSE = CGRect(x: 0.0, y: 0.0, width: 640.0, height: 1136.0)
+        if UIScreen.main.nativeBounds.width > screenDeviceSE.width {
+             return (collectionView.bounds.height - 60 ) / 3
+        }
+        return (collectionView.bounds.height - 60 ) / 2
     }
-    
-    
 }

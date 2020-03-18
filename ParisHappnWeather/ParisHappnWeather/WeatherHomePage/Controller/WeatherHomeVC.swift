@@ -17,13 +17,13 @@ class WeatherHomeVC: WeatherGenericVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        manageCoreData.deleteAll(weatherCoreDataS: manageCoreData.all)
-        print(manageCoreData.all.count)
+        
         self.createGradientLayer()
         self.showActivityIndicator(title: "Loading..")
         viewModel.delegate = self
         
-        viewModel.getRequestWeather { (bool) in
+        viewModel.getRequestWeather { [weak self] (bool) in
+            guard let self = self else { return }
             guard bool == true else {
                 self.showAlertView(title: "Error", message: "No NetWork", firstBtnTitle: "OK")
                 self.hideActivityIndicator()

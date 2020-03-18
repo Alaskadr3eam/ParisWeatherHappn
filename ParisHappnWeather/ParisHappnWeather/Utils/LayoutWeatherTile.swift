@@ -21,7 +21,7 @@ class LayoutWeatherTile: UICollectionViewLayout {
         return (delegate?.numberOfColumn())!
     }
     
-    fileprivate var cellPadding: CGFloat = 10
+    fileprivate var cellPadding: CGFloat = 5
 
         fileprivate var cache = [UICollectionViewLayoutAttributes]()
         fileprivate var contentHeight: CGFloat = 10

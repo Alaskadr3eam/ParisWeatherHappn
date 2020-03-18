@@ -9,7 +9,16 @@
 import XCTest
 @testable import ParisHappnWeather
 
-class MockForecast {
+class MockObjet {
+    static func createForecast() -> Forecast {
+        let main = MainClass(temp: 20.0, feelsLike: 20.0, tempMin: 20.0, tempMax: 20.0, pressure: 1020, seaLevel: 1045, grndLevel: 1030, humidity: 50, tempKf: 30.2)
+        let weather = Weather(id: 50, main: .clear, weatherDescription: "clear", icon: "1d")
+        let clouds = Clouds(all: 20)
+        let wind = Wind(speed: 10.0, deg: 5)
+        let sys = Sys(pod: .d)
+        let forecast1 = Forecast(dt: 1025012.0, main: main, weather: [weather], clouds: clouds, wind: wind, rain: nil, sys: sys, dtTxt: "2020-03-23 09:00:00")
+        return forecast1
+    }
     
     static func createForecasts() -> [Forecast] {
         let main = MainClass(temp: 20.0, feelsLike: 20.0, tempMin: 20.0, tempMax: 20.0, pressure: 1020, seaLevel: 1045, grndLevel: 1030, humidity: 50, tempKf: 30.2)
@@ -36,7 +45,7 @@ class WeatherDetailTableCellTest: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        weatherDetail = WeatherDetailTableModel(forecasts: MockForecast.createForecasts(), city: MockForecast.createCity(), weatherCellModel: nil)
+        weatherDetail = WeatherDetailTableModel(forecasts: MockObjet.createForecasts(), city: MockObjet.createCity(), weatherCellModel: nil)
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
