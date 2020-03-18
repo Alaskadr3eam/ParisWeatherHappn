@@ -21,10 +21,10 @@ class WeatherHome {
     var weatherCellModels: [WeatherCellModel]
     ///detail view
     var weatherDetailTableModels: [WeatherDetailTableModel]
-    var weatherData: ForecastResponse?
+    //var weatherData: ForecastResponse?
     //transition
     var index = Int()
-    var weatherCellTransit: WeatherCellModel?
+    //var weatherCellTransit: WeatherCellModel?
     //session
     private var weatherServiceSession = WeatherService(weatherSession: URLSession(configuration: .default))
     

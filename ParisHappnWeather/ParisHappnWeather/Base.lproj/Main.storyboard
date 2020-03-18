@@ -32,7 +32,7 @@
         <!--Paris-->
         <scene sceneID="cih-M8-D7Z">
             <objects>
-                <viewController id="xC8-pI-dSO" customClass="ViewController" customModule="TestHappn" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="xC8-pI-dSO" customClass="WeatherHomeVC" customModule="ParisHappnWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WUf-5O-7Ek">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,7 +40,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Kev-pv-JFT">
                                 <rect key="frame" x="0.0" y="140" width="414" height="722"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <collectionViewLayout key="collectionViewLayout" id="26H-G9-RJr" customClass="LayoutWeatherTile" customModule="TestHappn" customModuleProvider="target"/>
+                                <collectionViewLayout key="collectionViewLayout" id="26H-G9-RJr" customClass="LayoutWeatherTile" customModule="ParisHappnWeather" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Or9-vE-cNX">
                                         <rect key="frame" x="0.0" y="0.0" width="168" height="190"/>
@@ -52,7 +52,7 @@
                                         <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <size key="customSize" width="168" height="190"/>
                                         <connections>
-                                            <segue destination="JqY-2W-bvK" kind="show" id="agP-Xg-y0b"/>
+                                            <segue destination="JqY-2W-bvK" kind="show" identifier="Detail" id="agP-Xg-y0b"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -63,22 +63,22 @@
                     </view>
                     <navigationItem key="navigationItem" title="Paris" id="Nmk-Mv-7SL"/>
                     <connections>
-                        <outlet property="collectionView" destination="Kev-pv-JFT" id="SY6-Np-baz"/>
+                        <outlet property="collectionView" destination="Kev-pv-JFT" id="8am-EX-gG6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FHm-5G-eFf" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-35" y="179"/>
         </scene>
-        <!--Detail Weather Table View Controller-->
+        <!--Weather DetailTVC-->
         <scene sceneID="BXx-Pt-Mgy">
             <objects>
-                <tableViewController id="JqY-2W-bvK" customClass="DetailWeatherTableViewController" customModule="TestHappn" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="JqY-2W-bvK" customClass="WeatherDetailTVC" customModule="ParisHappnWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="uWw-Hw-rR0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="NnL-Dc-GNT" customClass="DetailView" customModule="TestHappn" customModuleProvider="target">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="NnL-Dc-GNT" customClass="DetailView" customModule="ParisHappnWeather" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="238"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -493,12 +493,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="humidity" width="16" height="16"/>
-        <image name="pressure" width="16" height="16"/>
-        <image name="rain" width="16" height="16"/>
-        <image name="sunrise" width="16" height="16"/>
-        <image name="sunset" width="16" height="16"/>
-        <image name="temp" width="16" height="16"/>
-        <image name="wind" width="16" height="16"/>
+        <image name="humidity" width="512" height="512"/>
+        <image name="pressure" width="512" height="512"/>
+        <image name="rain" width="512" height="512"/>
+        <image name="sunrise" width="512" height="512"/>
+        <image name="sunset" width="512" height="512"/>
+        <image name="temp" width="512" height="512"/>
+        <image name="wind" width="512" height="512"/>
     </resources>
 </document>

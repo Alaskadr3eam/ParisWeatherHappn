@@ -45,7 +45,7 @@ class WeatherHomeVC: WeatherGenericVC {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constant.detailSegue {
-            if let detailVC = segue.destination as? DetailWeatherTableViewController {
+            if let detailVC = segue.destination as? WeatherDetailTVC {
                 
                 detailVC.model = viewModel.detailsTableView(at: viewModel.index)
                 detailVC.model.weatherCellModel = viewModel.homeCell(at: viewModel.index)
