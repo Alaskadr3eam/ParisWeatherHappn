@@ -87,11 +87,6 @@ class WeatherHome {
                 completionHandler(false)
                 return
             }
-            guard weatherData != nil else {
-                self.failure(error: error!)//error never nil => ! Secure
-                completionHandler(false)
-                return
-            }
             self.success(weatherData!)//weatherData never nil => Secure
             completionHandler(true)
         }
