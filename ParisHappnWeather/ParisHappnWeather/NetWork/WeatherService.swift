@@ -13,7 +13,7 @@ class WeatherService {
     private var weatherSession = URLSession(configuration: .default)
     
     init(weatherSession: URLSession) {
-       
+        
         self.weatherSession = weatherSession
     }
     
@@ -26,7 +26,7 @@ class WeatherService {
          "lang": Constant.lang
     ]
     
-    func getWeather(q: String, completionHandler: @escaping (ForecastResponse?,NetworkError?) -> Void) {
+    func getWeather(q: String, completionHandler: @escaping (WeatherResponse?,NetworkError?) -> Void) {
         arguments["q"] = q
         guard var request = ServiceCreateRequest.createRequest(url: Constant.weatherUrl, arguments: arguments) else { return }
         request.httpMethod = "GET"
@@ -44,7 +44,7 @@ class WeatherService {
                 }
                 return
             }
-            guard let weatherData = try? JSONDecoder().decode(ForecastResponse.self, from: data) else {
+            guard let weatherData = try? JSONDecoder().decode(WeatherResponse.self, from: data) else {
                 DispatchQueue.main.async {
                     completionHandler(nil, NetworkError.jsonDecodeFailed)
                 }
@@ -56,6 +56,4 @@ class WeatherService {
         }
         task?.resume()
     }
-    
-    
 }

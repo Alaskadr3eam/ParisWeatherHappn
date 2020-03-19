@@ -54,7 +54,8 @@ struct WeatherDetailTableModel {
         for i in 0..<forecasts.count {
             temp.append(forecasts[i].main.tempMin)
         }
-        return temp.min()!
+        guard let tempSecure = temp.min() else { return 0.0 }
+        return tempSecure
     }
     
     fileprivate func tempsMax() -> Double {
@@ -62,7 +63,7 @@ struct WeatherDetailTableModel {
         for i in 0..<forecasts.count {
             temp.append(forecasts[i].main.tempMax)
         }
-        return temp.max()!
+        guard let tempSecure = temp.max() else { return 0.0 }
+        return tempSecure
     }
-    
 }

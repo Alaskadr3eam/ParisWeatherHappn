@@ -30,7 +30,7 @@ extension DateFormatter {
     
     static func createDateTime(timestamp: String) -> String {
         var strDate = "undefined"
-            
+        
         if let unixTime = Double(timestamp) {
             let date = Date(timeIntervalSince1970: unixTime)
             let dateFormatter = DateFormatter()
@@ -40,13 +40,13 @@ extension DateFormatter {
             dateFormatter.dateFormat = "dd/MM/yyyy" //Specify your format that you want
             strDate = dateFormatter.string(from: date)
         }
-            
+        
         return strDate
     }
     
     static func createDateTimeHour(timestamp: String) -> String {
         var strDate = "undefined"
-            
+        
         if let unixTime = Double(timestamp) {
             let date = Date(timeIntervalSince1970: unixTime)
             let dateFormatter = DateFormatter()
@@ -56,7 +56,7 @@ extension DateFormatter {
             dateFormatter.dateFormat = "HH:MM" //Specify your format that you want
             strDate = dateFormatter.string(from: date)
         }
-            
+        
         return strDate
     }
 }

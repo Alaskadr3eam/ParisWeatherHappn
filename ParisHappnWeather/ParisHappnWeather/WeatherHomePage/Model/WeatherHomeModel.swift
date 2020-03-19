@@ -21,37 +21,32 @@ class WeatherHome {
     var weatherCellModels: [WeatherCellModel]
     ///detail view
     var weatherDetailTableModels: [WeatherDetailTableModel]
-    //var weatherData: ForecastResponse?
     //transition
     var index = Int()
-    //var weatherCellTransit: WeatherCellModel?
     //session
     private var weatherServiceSession = WeatherService(weatherSession: URLSession(configuration: .default))
     
     var delegate : WeatherHomeDelegate?
+    
+    deinit {}
     
     init(weatherServiceSession: WeatherService) {
         self.weatherServiceSession = weatherServiceSession
         self.weatherDetailTableModels = []
         self.weatherCellModels = []
     }
-    
-    fileprivate func success(_ forecast: ForecastResponse) {
+    //MARK: - Function Success
+    fileprivate func success(_ forecast: WeatherResponse) {
         var onedayList: [[Forecast]] = []
-        let dictionary = Dictionary(grouping: forecast.list!) { $0.dateString }
+        guard let listF = forecast.list else { return }
+        let dictionary = Dictionary(grouping: listF) { $0.dateString }
         dictionary.forEach { (key, list) in
             onedayList.append(list)
         }
-        self.weatherCellModels = onedayList.map{
-            if $0.count >= 2 && $0.count <= 8 {
-               return WeatherCellModel(forecast: $0[3])
-            } else {
-               return WeatherCellModel(forecast: $0.first!)
-            }
-        }
-        //print(self.weatherCellModels.last?.forecast.)
+        self.weatherCellModels = onedayList.map { WeatherCellModel(forecast: $0[($0.count - 1) / 2]) }
         self.weatherCellModels.sort {$0.dateDouble < $1.dateDouble}
-        self.weatherDetailTableModels = onedayList.map{ WeatherDetailTableModel(forecasts: $0, city: forecast.city!) }
+        guard let citySecure = forecast.city else { return }
+        self.weatherDetailTableModels = onedayList.map{ WeatherDetailTableModel(forecasts: $0, city: citySecure) }
         self.weatherDetailTableModels.sort { $0.forecasts.first!.dt < $1.forecasts.first!.dt }
         DispatchQueue.main.async {
             //delete coreData before reSave last data
@@ -62,8 +57,9 @@ class WeatherHome {
             self.delegate?.weReceiveWeatherData()
         }
     }
-    
-    fileprivate func failure(error: NetworkError) {
+    //MARK: - Function Failure
+    func failure(error: NetworkError) {
+        DispatchQueue.main.async {
             let localDB = self.manageCoreData.all
             self.transformWeatherDetailCoreDataInWeatherDetailTableModel(weatherDetailCoreDate: localDB)
             if localDB.count > 0 {
@@ -72,42 +68,35 @@ class WeatherHome {
                 return
             }
             self.delegate?.failReceiveWeatherData(error: error)
-    }
-    
-    private func prepareModelForDisplayWithDB() {
-        for weatherDataDetail in self.weatherDetailTableModels {
-            if weatherDataDetail.forecasts.count == 8 {
-                let weatherCellModel = WeatherCellModel(forecast: weatherDataDetail.forecasts[3])
-                self.weatherCellModels.append(weatherCellModel)
-            } else {
-                let weatherCellModel = WeatherCellModel(forecast: weatherDataDetail.forecasts.first!)
-                self.weatherCellModels.append(weatherCellModel)
-            }
         }
     }
-    
+    ///func for add data db in model if no network
+    private func prepareModelForDisplayWithDB() {
+        for weatherDataDetail in self.weatherDetailTableModels {
+            let middle = (weatherDataDetail.forecasts.count - 1)/2
+            let weatherCellModel = WeatherCellModel(forecast: weatherDataDetail.forecasts[middle])
+            self.weatherCellModels.append(weatherCellModel)
+        }
+    }
+    //MARK: - Function Request
     func getRequestWeather(completionHandler: @escaping(Bool?) -> Void) {
         weatherServiceSession.getWeather(q: Constant.city) { [weak self] (weatherData, error) in
             guard let self = self else { return }
             guard error == nil else {
-                DispatchQueue.main.async {
-                    self.failure(error: error!)
-                }
+                self.failure(error: error!)//error never nil => ! Secure
                 completionHandler(false)
                 return
             }
             guard weatherData != nil else {
-                DispatchQueue.main.async {
-                    self.failure(error: error!)
-                }
+                self.failure(error: error!)//error never nil => ! Secure
                 completionHandler(false)
                 return
             }
+            self.success(weatherData!)//weatherData never nil => Secure
             completionHandler(true)
-            self.success(weatherData!)
         }
     }
-    
+    //MARK: - Function Decode Data
     private func transformWeatherDetailCoreDataInWeatherDetailTableModel(weatherDetailCoreDate: [WeatherDetailCoreData]) {
         weatherDetailCoreDate.forEach { (weatherDetailData) in
             let decoded = decodeWeatherCoreData(weatherDetailData)
@@ -137,6 +126,7 @@ class WeatherHome {
         } catch {
             print(error.localizedDescription)
         }
+        
         return city!
     }
     
@@ -153,9 +143,7 @@ class WeatherHome {
         }
         return forecasts
     }
-}
-
-extension WeatherHome {
+    //MARK: - Function Selection Cell model or DetailModel
     func homeCell(at index: Int) -> WeatherCellModel {
         self.weatherCellModels[index]
     }
@@ -164,3 +152,5 @@ extension WeatherHome {
         self.weatherDetailTableModels[index]
     }
 }
+
+

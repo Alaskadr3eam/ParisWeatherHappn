@@ -8,8 +8,8 @@
 
 import Foundation
 
-// MARK: - Forecast Response
-struct ForecastResponse: Codable {
+// MARK: - weather Response
+struct WeatherResponse: Codable {
     let message: String?
     let cod: Int
     let cnt: Int?
@@ -63,7 +63,7 @@ struct Forecast: Codable {
     let rain: Rain?
     let sys: Sys
     let dtTxt: String
-
+    
     enum CodingKeys: String, CodingKey {
         case dt, main, weather, clouds, wind, rain, sys
         case dtTxt = "dt_txt"
@@ -81,7 +81,7 @@ struct Forecast: Codable {
     
     private func createDateTimeHour(timestamp: String) -> String {
         var strDate = "undefined"
-            
+        
         if let unixTime = Double(timestamp) {
             let date = Date(timeIntervalSince1970: unixTime)
             let dateFormatter = DateFormatter()
@@ -91,7 +91,7 @@ struct Forecast: Codable {
             dateFormatter.dateFormat = "HH:MM" //Specify your format that you want
             strDate = dateFormatter.string(from: date)
         }
-            
+        
         return strDate
     }
 }
@@ -107,7 +107,7 @@ struct MainClass: Codable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, seaLevel, grndLevel, humidity: Int
     let tempKf: Double
-
+    
     enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
@@ -124,7 +124,7 @@ struct MainClass: Codable {
 // MARK: - Rain
 struct Rain: Codable {
     let the3H: Double
-
+    
     enum CodingKeys: String, CodingKey {
         case the3H = "3h"
     }
@@ -145,7 +145,7 @@ struct Weather: Codable {
     let id: Int
     let main: MainEnum
     let weatherDescription, icon: String
-
+    
     enum CodingKeys: String, CodingKey {
         case id, main
         case weatherDescription = "description"

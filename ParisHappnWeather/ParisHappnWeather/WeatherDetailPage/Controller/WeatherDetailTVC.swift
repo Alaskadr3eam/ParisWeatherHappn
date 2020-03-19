@@ -10,8 +10,7 @@ import UIKit
 import MapKit
 
 class WeatherDetailTVC: UITableViewController {
-    
-    //MARK: - Properties Outlets
+    //MARK: - Properties
     @IBOutlet weak var viewDetail: DetailView!
     //section1
     @IBOutlet weak var locationMapCity: MKMapView!
@@ -28,12 +27,12 @@ class WeatherDetailTVC: UITableViewController {
     @IBOutlet weak var pressureLabel: UILabel!
     
     var model: WeatherDetailTableModel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         Constant.configureTilteTextNavigationBar(view: self, title: model.weatherCellModel?.date ?? "Undefined")
-            
+        
         setUpView(model: model)
         setUpTableView()
         setUpCollectionView()
@@ -54,6 +53,7 @@ class WeatherDetailTVC: UITableViewController {
     private func setUpTableView() {
         tableView.backgroundColor = .clear
         setTableViewBackgroundGradient(sender: self)
+        tableView.allowsSelection = false
     }
     
     private func setUpCollectionView() {
@@ -67,11 +67,14 @@ class WeatherDetailTVC: UITableViewController {
         locationMapCity.delegate = self
         initLocMapView()
     }
+    //MARK: - Design
     ///func for add gradient background
     private func setTableViewBackgroundGradient(sender: UITableViewController) {
         var gradientBackgroundColors: [CGColor] = []
         if #available(iOS 11.0, *) {
-            gradientBackgroundColors = [UIColor(named: "color1")!.cgColor, UIColor(named: "color2")!.cgColor]
+            guard let color1 = UIColor(named: "color1") else { return }
+            guard let color2 = UIColor(named: "color2") else { return }
+            gradientBackgroundColors = [color1.cgColor, color2.cgColor]
         } else {
             // Fallback on earlier versions
             gradientBackgroundColors = [UIColor(displayP3Red: 0.253, green: 0.569, blue: 0.721, alpha: 1).cgColor, UIColor(displayP3Red: 0.315, green: 0.694, blue: 0.805, alpha: 1).cgColor]
@@ -87,5 +90,4 @@ class WeatherDetailTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = .clear
     }
-
 }

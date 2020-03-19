@@ -9,20 +9,20 @@ import UIKit
 import MapKit
 
 extension WeatherDetailTVC: MKMapViewDelegate {
-    //func for prepare mapKitView
+    ///func for prepare mapKitView
     private func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance) {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         locationMapCity.setRegion(coordinateRegion, animated: true)
         
     }
-    //func for create annotation for mapKitView
-   private func createAnnotationMapView() {
+    ///func for create annotation for mapKitView
+    private func createAnnotationMapView() {
         let coordinate = CLLocationCoordinate2D(latitude: 48.868688, longitude: 2.345698)
-    let happnLoc = Place(title: "happn", coordinate: coordinate)
+        let happnLoc = Place(title: "happn", coordinate: coordinate)
         locationMapCity.addAnnotation(happnLoc)
     }
-    //func for initialize mapKitView
+    ///func for initialize mapKitView
     private func initializeRegionViewMapView() {
         createAnnotationMapView()
         let lat = model.city.coord.lat
@@ -30,8 +30,9 @@ extension WeatherDetailTVC: MKMapViewDelegate {
         let initialisation = CLLocation(latitude: lat, longitude: longitude)
         let regionRadius: CLLocationDistance = 5000
         centerMapOnLocation(location: initialisation, regionRadius: regionRadius)
+        locationMapCity.isUserInteractionEnabled = false
     }
-    //func initialisation MapKitView
+    ///func initialisation MapKitView
     func initLocMapView() {
         initializeRegionViewMapView()
     }
@@ -64,7 +65,7 @@ extension WeatherDetailTVC: MKMapViewDelegate {
         return nil
     }
 }
-
+///Object for create place in map view
 class Place: NSObject, MKAnnotation {
     var title: String?
     var coordinate: CLLocationCoordinate2D

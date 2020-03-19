@@ -163,8 +163,10 @@
 		311A86C424227B2E0074EEB3 /* SupportingFile */ = {
 			isa = PBXGroup;
 			children = (
-				311A86C524227B3B0074EEB3 /* Constant.swift */,
-				311A86C724227B7A0074EEB3 /* NetWorkError.swift */,
+				31EA79D4242275F40008A3FD /* AppDelegate.swift */,
+				31EA79D6242275F40008A3FD /* SceneDelegate.swift */,
+				31EA79E0242275F60008A3FD /* Assets.xcassets */,
+				31EA79DD242275F40008A3FD /* ParisHappnWeather.xcdatamodeld */,
 			);
 			path = SupportingFile;
 			sourceTree = "<group>";
@@ -214,6 +216,9 @@
 		311A86DB242284560074EEB3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				311A86C524227B3B0074EEB3 /* Constant.swift */,
+				311A86C724227B7A0074EEB3 /* NetWorkError.swift */,
+				311A86CE24227C760074EEB3 /* Extension */,
 				311A86DC2422849D0074EEB3 /* LayoutWeatherTile.swift */,
 			);
 			path = Utils;
@@ -292,6 +297,23 @@
 			path = NetwoarkTest;
 			sourceTree = "<group>";
 		};
+		311A872024239D920074EEB3 /* ControllerGeneric */ = {
+			isa = PBXGroup;
+			children = (
+				311A86D524227F9F0074EEB3 /* WeatherGenericVC.swift */,
+			);
+			path = ControllerGeneric;
+			sourceTree = "<group>";
+		};
+		311A872124239DA30074EEB3 /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				31EA79DA242275F40008A3FD /* Main.storyboard */,
+				31EA79E2242275F60008A3FD /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoard;
+			sourceTree = "<group>";
+		};
 		31EA79C8242275F40008A3FD = {
 			isa = PBXGroup;
 			children = (
@@ -315,21 +337,15 @@
 		31EA79D3242275F40008A3FD /* ParisHappnWeather */ = {
 			isa = PBXGroup;
 			children = (
-				311A86FB2422916B0074EEB3 /* WeatherDetailPage */,
+				311A872124239DA30074EEB3 /* StoryBoard */,
+				311A872024239D920074EEB3 /* ControllerGeneric */,
 				311A86D324227F330074EEB3 /* WeatherHomePage */,
+				311A86FB2422916B0074EEB3 /* WeatherDetailPage */,
 				311A86F024228F1A0074EEB3 /* CoreData */,
-				311A86DB242284560074EEB3 /* Utils */,
-				311A86CE24227C760074EEB3 /* Extension */,
-				311A86C424227B2E0074EEB3 /* SupportingFile */,
 				311A86C124227AD30074EEB3 /* NetWork */,
-				31EA79D4242275F40008A3FD /* AppDelegate.swift */,
-				31EA79D6242275F40008A3FD /* SceneDelegate.swift */,
-				31EA79DA242275F40008A3FD /* Main.storyboard */,
-				31EA79E0242275F60008A3FD /* Assets.xcassets */,
-				31EA79E2242275F60008A3FD /* LaunchScreen.storyboard */,
+				311A86DB242284560074EEB3 /* Utils */,
+				311A86C424227B2E0074EEB3 /* SupportingFile */,
 				31EA79E5242275F60008A3FD /* Info.plist */,
-				31EA79DD242275F40008A3FD /* ParisHappnWeather.xcdatamodeld */,
-				311A86D524227F9F0074EEB3 /* WeatherGenericVC.swift */,
 			);
 			path = ParisHappnWeather;
 			sourceTree = "<group>";

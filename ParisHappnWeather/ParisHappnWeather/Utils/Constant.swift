@@ -23,5 +23,4 @@ struct Constant {
     static func configureTilteTextNavigationBar(view: UIViewController,title: String) {
         view.navigationItem.title = title
     }
-
 }

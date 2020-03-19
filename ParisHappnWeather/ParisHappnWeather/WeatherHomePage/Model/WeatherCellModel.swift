@@ -31,10 +31,11 @@ extension WeatherCellModel {
     }
     
     var date: String? {
-        if Calendar.current.isDateInToday(self.forecast.dt.dateFormattedReturnDate!) {
+        guard let dateSecure = self.forecast.dt.dateFormattedReturnDate else { return "undefined" }
+        if Calendar.current.isDateInToday(dateSecure) {
             return "Aujourd'hui"
         } else {
-            return DateFormatter.weekdayDateFormatter.string(from: self.forecast.dt.dateFormattedReturnDate!)
+            return DateFormatter.weekdayDateFormatter.string(from: dateSecure)
         }
     }
     

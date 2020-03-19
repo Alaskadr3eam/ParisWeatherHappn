@@ -10,11 +10,11 @@ import UIKit
 
 extension WeatherHomeVC: WeatherHomeDelegate {
     func failReceiveWeatherData(error: NetworkError) {
-            self.present(NetworkError.getAlert(error), animated: true)
+        self.present(NetworkError.getAlert(error), animated: true)
     }
     
     func weReceiveWeatherData() {
-            self.collectionView.reloadData()
-            self.hideActivityIndicator()
+        self.collectionView.reloadData()
+        self.hideActivityIndicator()
     }
 }

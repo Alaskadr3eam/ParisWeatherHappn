@@ -20,20 +20,19 @@ class CoreDataManager {
     }
     
     convenience init() {
-           //Use the default container for production environment
-           guard let appDelegate = (UIApplication.shared.delegate as? AppDelegate) else { fatalError("no coreData") }
-           
-           self.init(container: appDelegate.persistentContainer)
-       }
-    
+        //Use the default container for production environment
+        guard let appDelegate = (UIApplication.shared.delegate as? AppDelegate) else { fatalError("no coreData") }
+        
+        self.init(container: appDelegate.persistentContainer)
+    }
+    ///for retrieve all objet in coredata
     var all: [WeatherDetailCoreData] {
         let request: NSFetchRequest<WeatherDetailCoreData> = WeatherDetailCoreData.fetchRequest()
         guard let weatherDetailModels = try? self.persistentContainer.viewContext.fetch(request) else { return [] }
         return weatherDetailModels
     }
-    
     //MARK: - Manage WeatherDetailCoreData
-    //Save
+    ///Save weatherDetailTableModel in DB
     func save(forecasts: [Forecast], city: City, weatherCellModel: WeatherCellModel?) {
         let weatherDetail = WeatherDetailCoreData(context: persistentContainer.viewContext)
         weatherDetail.city = encodeCity(objet: city)
@@ -47,7 +46,7 @@ class CoreDataManager {
             print("error save")
         }
     }
-    
+    ///encode forecast in data
     private func encodeForecasts(objet: [Forecast]) -> [Data] {
         var forecastsData = [Data]()
         let encoder = JSONEncoder()
@@ -63,7 +62,7 @@ class CoreDataManager {
         }
         return forecastsData
     }
-    
+    ///encode city in data
     private func encodeCity(objet: City) -> Data {
         var objData = Data()
         let encoder = JSONEncoder()
@@ -75,7 +74,7 @@ class CoreDataManager {
         }
         return objData
     }
-    
+    ///encode weathercellmodel in data
     private func encodeWeatherCellModel(objet: WeatherCellModel?) -> Data? {
         var objData = Data()
         let encoder = JSONEncoder()
@@ -88,7 +87,7 @@ class CoreDataManager {
         return objData
     }
     
-    //Delete
+    ///Delete all CoreData
     func deleteAll(weatherCoreDataS: [WeatherDetailCoreData]) {
         weatherCoreDataS.forEach { (weatherCoreData) in
             delete(weatherCoreData: weatherCoreData)

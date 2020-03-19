@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailView: UIView {
-     
+     //MARK: - Properties
       @IBOutlet weak var labelCity: UILabel!
       @IBOutlet weak var labelDescription: UILabel!
       @IBOutlet weak var labelTemp: UILabel!
@@ -19,12 +19,13 @@ class DetailView: UIView {
     
       override func awakeFromNib() {
       }
-      
+      //MARK: - Configure DetailView
       func configureDetailView(model: WeatherDetailTableModel) {
           labelCity.text = model.city.name
           labelDescription.text = model.weatherCellModel?.description
           labelTemp.text = model.weatherCellModel?.averageTemperature
-          iconImage.image = UIImage(named:(model.weatherCellModel?.iconUrl)!)
+          guard let image = model.weatherCellModel?.iconUrl else { return }
+          iconImage.image = UIImage(named:image)
           tempMinLabel.text = model.tempMin
           tempMaxLabel.text = model.tempMax
       }

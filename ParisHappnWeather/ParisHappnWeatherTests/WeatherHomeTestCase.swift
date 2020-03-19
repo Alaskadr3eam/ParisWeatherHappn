@@ -21,53 +21,22 @@ class WeatherHomeTestCase: XCTestCase {
         weatherHome.manageCoreData = CoreDataManager(container: mockPersistantContainer)
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
-    func testRequest() {
-        let weatherHome1 = WeatherHome(weatherServiceSession: WeatherService(weatherSession: URLSessionFake(data: nil, response: nil, error: TestError.error)))
-        var result = false
+
+    func testFuncFailure() {
         
-        weatherHome1.getRequestWeather { (bool) in
-            guard bool == true else {
-                result = bool!
-                return
-            }
-            result = bool!
-        }
-        XCTAssertEqual(weatherHome1.weatherCellModels.count, 0)
-        XCTAssertEqual(result, false)
+        weatherHome.failure(error: .badResponse)
+        
+        XCTAssertEqual(weatherHome.weatherCellModels.count,0)
     }
     
-    func testRequest2() {
-        let weatherHome1 = WeatherHome(weatherServiceSession: WeatherService(weatherSession: URLSessionFake(data: FakeResponseData.weatherCorrectData, response: FakeResponseData.responseOK, error: nil)))
-        var result = false
+    func testFuncFailure2() {
+        weatherHome.manageCoreData.save(forecasts: MockObjet.createForecasts(), city: MockObjet.createCity(), weatherCellModel: nil)
         
-        weatherHome1.getRequestWeather { (bool) in
-            guard bool == true else {
-                result = bool!
-                return
-            }
-            result = bool!
-        }
+        weatherHome.failure(error: .badResponse)
         
-        XCTAssertEqual(weatherHome1.weatherCellModels.count, 6)
-        XCTAssertEqual(result, true)
+        XCTAssertEqual(weatherHome.weatherCellModels.count,0)
     }
-    
-    func testRequest3() {
-        let weatherHome1 = WeatherHome(weatherServiceSession: WeatherService(weatherSession: URLSessionFake(data: FakeResponseData.weatherIncorrectData, response: FakeResponseData.responseOK, error: TestError.error)))
-        var result = false
-        
-        weatherHome1.getRequestWeather { (bool) in
-            guard bool == true else {
-                result = bool!
-                return
-            }
-            result = bool!
-        }
-        
-        XCTAssertEqual(weatherHome1.weatherCellModels.count, 0)
-        XCTAssertEqual(result, false)
-    }
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }

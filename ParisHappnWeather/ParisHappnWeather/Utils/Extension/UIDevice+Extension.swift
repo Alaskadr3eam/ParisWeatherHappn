@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIDevice {
-
+    
     public static let hardwareModel: String = {
         var path = [CTL_HW, HW_MACHINE]
         var n = 0
